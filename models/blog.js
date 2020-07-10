@@ -13,8 +13,24 @@ const blogSchema = new Schema({
     body: {
         type: String,
         required: true
-    }
+    },
+    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment', required: true }]
 }, { timestamps: true });
 
+const commentSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    content: {
+        type: String,
+        required: true
+    }
+});
+
 const Blog = mongoose.model('Blog', blogSchema);
-module.exports = Blog;
+const Comment = mongoose.model('Comment', commentSchema);
+module.exports = {
+    Blog,
+    Comment
+}

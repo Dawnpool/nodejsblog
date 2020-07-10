@@ -10,6 +10,25 @@
         <p><%= blog.body %></p>
     </div>
     <a class="delete" data-doc="<%= blog._id %>">delete</a>
+    <div class="comment-list">
+        <% if (blog.comments.length > 0) { %>
+            <% blog.comments.forEach(comment => { %>
+                <div>
+                    <span><%= comment.name %></span>
+                    <span><%= comment.content %></span>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+    <div class="post-comment">
+        <form action="/blogs/<%= blog._id %>" method="POST">
+            <label for="name">name</label>
+            <input type="text" id="name" name="name" required>
+            <label for="content">comment</label>
+            <textarea id="content" name="content" required></textarea>
+            <button>Submit</button>
+        </form>
+    </div>
 </div>
     <%- include("../partials/footer.ejs") %>
     <script>

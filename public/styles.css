@@ -109,3 +109,12 @@
       font-size: 1.2em;
       cursor: pointer;
     }
+
+    .post-comment {
+      margin-top: 20px;
+    }
+
+    .post-comment textarea {
+      width: 400px;
+      height: 50px;
+    }
