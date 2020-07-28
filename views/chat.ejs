@@ -1,0 +1,53 @@
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+<body>
+    <%- include('./partials/nav.ejs') %>
+    <div class="about content">
+        <h2>Chat</h2>
+    </div>
+    <div>
+        <div id="chatLogs">
+            <h3>채팅창</h3>
+        </div>
+        <form id="chatForm">
+            <input type="text" id="msg">
+            <input type="submit" id="send" value="전송">
+        </form>
+    </div>
+    <%- include('./partials/footer.ejs') %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.emit('login', {
+            name: makeRandomName(),
+            userid: 'userid@email.com'
+        });
+
+        socket.on('login', data => {
+            $("#chatLogs").append("<div><strong>" + data + "</strong> has joined</div>");
+        });
+
+        socket.on('chat', data => {
+            $("#chatLogs").append("<div><strong>" + data.from.name + " : </strong>" + data.msg + "</div>");
+        });
+        
+        $("form").submit(e => {
+            e.preventDefault();
+            let $msg = $("#msg");
+            
+            socket.emit("chat", { msg: $msg.val() });
+            $msg.val("");
+        });
+        
+        function makeRandomName() {
+            let name = "";
+            const possible = "abcdefghijklmnopqrstuvwxyz";
+            for (let i = 0; i < 3; i++) {
+                name += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+            return name;
+        }
+    </script>
+</body>
+</html>
